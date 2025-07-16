@@ -1,6 +1,5 @@
 from manim import *
 
-
 class Toma1(ThreeDScene):
     def construct(self):
         formula = MathTex(
@@ -180,7 +179,6 @@ class Toma8(Scene):
 
 class Toma9(Scene):
     def construct(self):
-        # Crear eje x desde -6 hasta 7
         eje_x = NumberLine(
             x_range=[-6, 7, 1],
             length=13,
@@ -189,15 +187,12 @@ class Toma9(Scene):
         )
         eje_x.to_edge(DOWN, buff=2)
 
-        # Símbolo [ sobre -5
         corchete_inicio = Tex(r"[", font_size=60)
         corchete_inicio.next_to(eje_x.n2p(-5), UP, buff=0.1)
 
-        # Símbolo ) sobre extremo derecho para +∞
         parentesis_final = Tex(r")", font_size=60)
         parentesis_final.next_to(eje_x.n2p(6.8), UP, buff=0.1)
 
-        # Etiquetas por intervalo
         etiquetas = [
             ("Decreciente", -3.5, UP),
             (r"Cóncava\\hacia\\abajo", -3.5, DOWN),
@@ -239,7 +234,6 @@ class Toma10(Scene):
         return -1 / (x + 1) - 1
 
     def construct(self):
-        # Crear ejes
         axes = Axes(
             x_range=[-6, 7, 1],
             y_range=[-1, 6, 1],
@@ -251,26 +245,21 @@ class Toma10(Scene):
         axes.to_edge(DOWN, buff=1.5)
         self.play(Create(axes))
 
-        # Función 1: Parábola entre -5 < x < -2
         f1 = axes.plot(
             lambda x: -4/9 * (x + 5)**2 + 4,
             x_range=[-4.99, -2.01],
             color=BLUE,
         )
         self.play(Create(f1))
-
-        # Función 2: Hipérbola tipo, asintótica en x = -1
-        # En lugar de usar Create(f2), construimos líneas pequeñas para animar
-        x_vals = [x/100 for x in range(-199, -101)]  # -1.99 a -1.01, paso 0.01
+        x_vals = [x/100 for x in range(-199, -101)]
         points = [axes.c2p(x, self.funcion_fx(x)) for x in x_vals]
         lines = VGroup()
         for i in range(len(points)-1):
             line = Line(points[i], points[i+1], color=GREEN, stroke_width=3)
             lines.add(line)
-        self.add(lines)  # Añadimos antes de animar
+        self.add(lines)
         self.play(LaggedStartMap(Create, lines), run_time=3)
 
-        # Función 3: Raíz cuadrada desde (-1, 0) a (1, 4)
         f3 = axes.plot(
             lambda x: 2 * np.sqrt(x + 1),
             x_range=[-1, 1],
@@ -278,7 +267,6 @@ class Toma10(Scene):
         )
         self.play(Create(f3))
 
-        # Función 4: -|√x| desde (1,4) hacia derecha, asintota en y=3
         f4 = axes.plot(
             lambda x: -np.sqrt(x - 1) + 4,
             x_range=[1.01, 6.8],
@@ -286,7 +274,6 @@ class Toma10(Scene):
         )
         self.play(Create(f4))
 
-        # Puntos clave
         puntos = VGroup(
             Dot(axes.c2p(-5, 4), color=BLUE),
             Dot(axes.c2p(-2, 0), color=GREEN),
@@ -295,7 +282,6 @@ class Toma10(Scene):
         )
         self.play(FadeIn(puntos))
 
-        # Líneas verticales x = -2, -1, 1
         lineas = VGroup()
         for x in [-2, -1, 1]:
             linea = DashedLine(
@@ -307,7 +293,6 @@ class Toma10(Scene):
             lineas.add(linea)
         self.play(Create(lineas))
 
-        # Asintota horizontal y = 3
         asintota_y = DashedLine(
             start=axes.c2p(1, 3),
             end=axes.c2p(7, 3),
@@ -316,12 +301,10 @@ class Toma10(Scene):
         )
         self.play(Create(asintota_y))
 
-        # Corchete y paréntesis
         corchete_inicio = Tex(r"[", font_size=60).next_to(axes.c2p(-5, 0), UP, buff=0.1)
         parentesis_final = Tex(r")", font_size=60).next_to(axes.c2p(6.8, 0), UP, buff=0.1)
         self.play(Write(corchete_inicio), Write(parentesis_final))
 
-        # Etiquetas explicativas
         etiquetas = [
             ("Decreciente", -3.5, UP),
             (r"Cóncava\\hacia\\abajo", -3.5, DOWN),
